@@ -8,12 +8,12 @@
 
             <div class="m-5">
 
-                <h4> Sign up</h4>
+                <h4> Updata Info</h4>
 
             </div>
             <div>
 
-                <form action="{% url 'accountapp:create' %}" method="post">
+                <form action="{% url 'accountapp:update' pk=target_user.pk %}" method="post">
                     {% csrf_token %}
                      {% bootstrap_form form %}
                     <div class="m-5">

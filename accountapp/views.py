@@ -7,27 +7,32 @@ from django.shortcuts import render
 from django.urls import reverse, reverse_lazy
 from django.views.generic import CreateView, DetailView, UpdateView, DeleteView
 
+from accountapp.form import AccountCreationForm
 from accountapp.models import HelloWorld
 
 def hello_world(request):
-    if request.method == "POST":
+    if request.user.is_authenticated:
 
-        temp = request.POST.get('input')
-        new_data = HelloWorld()
-        new_data.text = temp
-        new_data.save()
 
-        return HttpResponseRedirect(reverse('accountapp:hello_world'))
+        if request.method == "POST":
 
+            temp = request.POST.get('input')
+            new_data = HelloWorld()
+            new_data.text = temp
+            new_data.save()
+
+            return HttpResponseRedirect(reverse('accountapp:hello_world'))
+
+        else:
+            data_list = HelloWorld.objects.all()
+            return render(request, 'accountapp/hello_world.html',
+                          context={'data_list': data_list})
     else:
-        data_list = HelloWorld.objects.all()
-        return render(request, 'accountapp/hello_world.html',
-                      context={'data_list': data_list})
-
+        return HttpResponseRedirect(reverse('accountapp:login'))
 
 class AccountCreateView(CreateView):
     model = User
-    form_class = UserCreationForm
+    form_class = AccountCreationForm
     success_url = reverse_lazy('accountapp:hello_world')
     template_name = 'accountapp/create.html'
 
@@ -38,8 +43,13 @@ class AccountDetailView(DetailView):
 
 class AccountUpdateView(UpdateView):
     model = User
-    form_class = UserCreationForm
+    form_class = AccountCreationForm
     context_object_name = 'target_user'
     success_url = reverse_lazy('accountapp:hello_world')
     template_name = 'accountapp/update.html'
 
+class AccountDeleteView(DeleteView):
+    model = User
+    context_object_name = 'target_user'
+    success_url = reverse_lazy('accountapp:hello_world')
+    template_name = 'accountapp/delete.html'

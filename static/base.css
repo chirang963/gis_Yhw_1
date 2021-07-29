@@ -12,7 +12,7 @@
     font-family: 'Dancing Script', cursive;
 }
 .pragmatic_footer_botton{
-    margin-top: 2rem
+    margin-top: 2rem;
 }
 
 .mw-500 {
@@ -26,6 +26,19 @@
     border-right: 20rem;
     object-fit: cover;
 }
-MNS_B {
-    font-family: "NanumSquareB", cursive3;
+NNS_B {
+    font-family: "NanumSquareB", cursive;
+}
+
+.round_button {
+    color: black;
+    text-decoration: none;
+    box-shadow: 3px 3px 3px black;
+    border-radius: 20rem;
+    padding: 0.3rem;
+}
+
+
+.round_button:hover {
+    color:dimgray;
 }
